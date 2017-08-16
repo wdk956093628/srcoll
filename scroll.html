@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        #content {
+            position: relative;
+            width: 800px;
+            height: 400px;
+            border: 2px solid #000;
+            overflow: hidden;
+        }
+
+        #pic {
+            position: absolute;
+            left: 0;
+            width: 3200px;
+            height: 400px;
+        }
+
+        #pic > img {
+            float: left;
+            width: 800px;
+            height: 400px;
+        }
+
+        #point {
+            position: absolute;
+            left: 350px;
+            bottom: 10px;
+        }
+
+        #point > span {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            cursor: pointer;
+            background: #666;
+            opacity: 0.5;
+            border: 2px solid #fff;
+            border-radius: 50%;
+        }
+
+        #point .red{
+            background: #f60;
+        }
+
+        #buts > span {
+            display: block;
+            width: 50px;
+            height: 50px;
+            color: #fff;
+            font-size: 30px;
+            line-height: 50px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #000;
+            opacity: .3;
+        }
+
+        #prev {
+            position: absolute;
+            left: 50px;
+            top: 170px;
+        }
+
+        #next {
+            position: absolute;
+            right: 50px;
+            top: 170px;
+        }
+
+        #buts > span:hover {
+            background: #000;
+            opacity: .7;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            var pic = document.getElementById("pic");
+            var prev = document.getElementById("prev");
+            var next = document.getElementById("next");
+            var point =document.getElementsByTagName("span");
+
+            prev.addEventListener("click", function (){
+                scroll(-2400,0,-800)
+            });
+            next.addEventListener("click", function (){
+                scroll(0,-2400,800)
+            });
+
+            for (var i=0;i<point.length;i++){
+                point[i].onclick=function(){
+                    pointSwitch()
+                }
+            }
+
+            function getStyle(obj,attr){
+                return parseInt(getComputedStyle(obj,false)[attr]);
+            }
+            function scroll(ter,edge,speed) {
+                var left_val = parseInt(getStyle(pic,"left"));
+                if(left_val===ter){
+                    pic.style.left=edge;
+                    left_val=parseInt(pic.style.left)
+                }else {
+                    left_val+=speed;
+                }
+                console.log(left_val);
+                pic.style.left = left_val + "px";
+            }
+
+            function pointSwitch(that,num){
+                    for(var i=0;i<point.length;i++){
+                        point[i].setAttribute("class","");
+                    }
+                    that.setAttribute("class","red");
+                    pic.style.left=num*(-800)+"px";
+            }
+        }
+    </script>
+</head>
+<body>
+<div>
+    <div id="content">
+        <div id="pic" style="position: absolute">
+            <img src="img/01.jpg" alt="">
+            <img src="img/03.jpg" alt="">
+            <img src="img/02.jpg" alt="">
+            <img src="img/04.jpg" alt="">
+        </div>
+        <div id="point">
+            <span class="red"></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div id="buts">
+            <span id="prev"><</span>
+            <span id="next">></span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
